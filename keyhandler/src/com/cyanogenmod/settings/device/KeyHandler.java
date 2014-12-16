@@ -24,8 +24,6 @@ import android.view.KeyEvent;
 
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.util.ArrayUtils;
-//import com.android.internal.util.cm.NavigationRingHelpers;
-//import com.android.internal.util.cm.TorchConstants;
 
 public class KeyHandler implements DeviceKeyHandler {
 
@@ -104,16 +102,13 @@ public class KeyHandler implements DeviceKeyHandler {
             case GESTURE_SWIPE_DOWN_SCANCODE:
                 dispatchMediaKeyWithWakeLockToAudioService(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
                 break;
-                /*
             case GESTURE_V_SCANCODE:
-                if (NavigationRingHelpers.isTorchAvailable(mContext)) {
-                    mGestureWakeLock.acquire(GESTURE_WAKELOCK_DURATION);
-                    Intent torchIntent = new Intent(TorchConstants.ACTION_TOGGLE_STATE);
-                    torchIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-                    mContext.sendBroadcast(torchIntent);
-                }
+                mGestureWakeLock.acquire(GESTURE_WAKELOCK_DURATION);
+                Intent torchIntent = new Intent(Intent.ACTION_TOGGLE_FLASHLIGHT);
+                torchIntent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+                mContext.sendBroadcastAsUser(torchIntent, UserHandle.CURRENT);
+                doHapticFeedback();
                 break;
-                */
             case GESTURE_LTR_SCANCODE:
                 dispatchMediaKeyWithWakeLockToAudioService(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
                 break;
