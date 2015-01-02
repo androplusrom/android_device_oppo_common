@@ -17,6 +17,7 @@ import android.os.PowerManager.WakeLock;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.SystemClock;
+import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,11 +25,15 @@ import android.view.KeyEvent;
 
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.util.ArrayUtils;
+//import com.android.internal.util.cm.NavigationRingHelpers;
+//import com.android.internal.util.cm.TorchConstants;
 
 public class KeyHandler implements DeviceKeyHandler {
 
     private static final String TAG = KeyHandler.class.getSimpleName();
     private static final int GESTURE_REQUEST = 1;
+
+    private static final String PROP_HAPTIC_FEEDBACK = "persist.gestures.haptic";
 
     // Supported scancodes
     private static final int FLIP_CAMERA_SCANCODE = 249;
@@ -218,5 +223,10 @@ public class KeyHandler implements DeviceKeyHandler {
         } catch (ActivityNotFoundException e) {
         }
         */
+    }
+
+    private void doHapticFeedback() {
+        if (mVibrator == null || !SystemProperties.getBoolean(PROP_HAPTIC_FEEDBACK, false)) return;
+        mVibrator.vibrate(50);
     }
 }
